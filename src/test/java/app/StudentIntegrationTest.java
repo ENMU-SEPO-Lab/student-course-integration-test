@@ -1,12 +1,6 @@
-package test.java.app;
+package app;
 
 import org.junit.Test;
-
-import main.java.app.Course;
-import main.java.app.CourseRepository;
-import main.java.app.Student;
-import main.java.app.StudentService;
-
 import static org.junit.Assert.*;
 
 public class StudentIntegrationTest {
@@ -17,14 +11,14 @@ public class StudentIntegrationTest {
         CourseRepository repo = new CourseRepository();
         StudentService service = new StudentService(repo);
 
-        Course csciCourse = new Course("CSCI1210", "Computer Programming Fundamentals");
-        repo.addCourse(csciCourse);
+        Course c = new Course("CS101", "Intro");
+        repo.addCourse(c);
 
-        Student student = new Student("John Wick");
+        Student s = new Student("Alice");
 
-        service.enrollStudent(student, "CSCI1210");
+        service.enrollStudent(s, "CS101");
 
-        assertEquals(1, student.getCourses().size());
-        assertEquals("CSCI1210", student.getCourses().get(0).getCourseId());
+        assertEquals(1, s.getCourses().size());
+        assertEquals("CS101", s.getCourses().get(0).getCourseId());
     }
 }

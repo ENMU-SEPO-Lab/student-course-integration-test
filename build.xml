@@ -11,8 +11,15 @@
         </fileset>
     </path>
 
-    <target name="compile">
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="init" depends="clean">
         <mkdir dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
             <classpath refid="classpath"/>
         </javac>

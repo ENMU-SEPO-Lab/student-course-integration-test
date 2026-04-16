@@ -1,4 +1,4 @@
-package main.java.app;
+package app;
 
 public class Course {
     private String courseId;
