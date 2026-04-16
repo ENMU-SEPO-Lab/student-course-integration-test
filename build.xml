@@ -63,17 +63,14 @@
         </junit>
     </target>
 
-    <target name="checkstyle" description="Runs Checkstyle analysis">
-
+    <target name="checkstyle">
         <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
-                 classpathref="checkstyle.classpath"/>
-
+                classpathref="checkstyle.classpath"/>
+        <mkdir dir="${reports.dir}"/>
         <checkstyle config="${config.dir}/sun_checks.xml"
                     failureProperty="checkstyle.failure"
                     failOnViolation="true">
-
-            <formatter type="plain"/>
-            <formatter type="xml" tofile="${reports.dir}/checkstyle-result.xml"/>
+            <formatter type="plain" toFile="${reports.dir}/checkstyle.txt"/>
 
             <fileset dir="${src.dir}">
                 <include name="**/*.java"/>
@@ -82,7 +79,8 @@
         </checkstyle>
 
         <fail message="Checkstyle violations found!"
-              if="checkstyle.failure"/>
+            if="checkstyle.failure"/>
+
     </target>
 
     <target name="ci" depends="compile,test,checkstyle"/>
