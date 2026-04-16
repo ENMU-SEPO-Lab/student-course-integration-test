@@ -19,6 +19,9 @@ jobs:
 
     - name: Install Ant
       run: sudo apt-get install -y ant
+    
+    - name: Run Checkstyle
+      run: ant checkstyle
 
     - name: Run Tests
       run: ant test
