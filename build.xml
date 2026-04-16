@@ -1,9 +1,10 @@
-<project name="IntegrationTest" default="test">
-
+<project name="IntegrationTest" default="ci">
     <property name="src.dir" value="src/main/java"/>
     <property name="test.dir" value="src/test/java"/>
     <property name="build.dir" value="build"/>
     <property name="lib.dir" value="lib"/>
+    <property name="config.dir" value="config"/>
+    <property name="reports.dir" value="reports"/>
 
     <path id="classpath">
         <fileset dir="${lib.dir}">
@@ -11,22 +12,34 @@
         </fileset>
     </path>
 
+    <path id="checkstyle.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="checkstyle-*.jar"/>
+        </fileset>
+    </path>
+
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${reports.dir}"/>
     </target>
 
     <target name="init" depends="clean">
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${reports.dir}"/>
     </target>
 
     <target name="compile" depends="init">
-        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+        <javac srcdir="${src.dir}"
+               destdir="${build.dir}"
+               includeantruntime="false">
             <classpath refid="classpath"/>
         </javac>
     </target>
 
     <target name="compile-test" depends="compile">
-        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="false">
+        <javac srcdir="${test.dir}"
+               destdir="${build.dir}"
+               includeantruntime="false">
             <classpath>
                 <path refid="classpath"/>
                 <pathelement path="${build.dir}"/>
@@ -35,17 +48,42 @@
     </target>
 
     <target name="test" depends="compile-test">
-        <junit printsummary="yes">
+        <junit printsummary="yes" haltonfailure="true">
             <classpath>
                 <path refid="classpath"/>
                 <pathelement path="${build.dir}"/>
             </classpath>
-            <batchtest>
+
+            <batchtest fork="yes">
                 <fileset dir="${test.dir}">
                     <include name="**/*Test.java"/>
                 </fileset>
             </batchtest>
         </junit>
     </target>
+
+    <target name="checkstyle" description="Runs Checkstyle analysis">
+
+        <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+                 classpathref="checkstyle.classpath"/>
+
+        <checkstyle config="${config.dir}/sun_checks.xml"
+                    failureProperty="checkstyle.failure"
+                    failOnViolation="true">
+
+            <formatter type="plain"/>
+            <formatter type="xml" tofile="${reports.dir}/checkstyle-result.xml"/>
+
+            <fileset dir="${src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+
+        </checkstyle>
+
+        <fail message="Checkstyle violations found!"
+              if="checkstyle.failure"/>
+    </target>
+
+    <target name="ci" depends="compile,test,checkstyle"/>
 
 </project>
