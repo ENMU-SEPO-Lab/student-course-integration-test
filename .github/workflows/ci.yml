@@ -24,7 +24,7 @@ jobs:
     #   run: ant checkstyle
 
     - name: Run Tests
-      run: ant
+      run: ant ci
     
     - name: Debug report files
       run: |
