@@ -11,14 +11,14 @@ public class StudentIntegrationTest {
         CourseRepository repo = new CourseRepository();
         StudentService service = new StudentService(repo);
 
-        Course c = new Course("CS101", "Intro");
+        Course c = new Course("CSCI472", "Software Engineering");
         repo.addCourse(c);
 
-        Student s = new Student("Alice");
+        Student s = new Student("John Wick");
 
-        service.enrollStudent(s, "CS101");
+        service.enrollStudent(s, "CSCI472 Software Engineering");
 
         assertEquals(1, s.getCourses().size());
-        assertEquals("CS101", s.getCourses().get(0).getCourseId());
+        assertEquals("CSCI472", s.getCourses().get(0).getCourseId());
     }
 }

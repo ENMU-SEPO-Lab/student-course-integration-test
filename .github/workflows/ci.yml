@@ -58,7 +58,7 @@ jobs:
         student_email = "essa.imhmed@enmu.edu"
 
         msg = EmailMessage()
-        msg["Subject"] = "Automated Grading Feedback"
+        msg["Subject"] = "Automated CI Feedback"
         msg["From"] = gmail_user
         msg["To"] = student_email
         msg.set_content("Hello,\n\nYour code assessment reports are attached.\n\nRegards.")
