@@ -26,6 +26,14 @@ jobs:
     - name: Run Tests
       run: ant test
     
+    - name: Debug report files
+      run: |
+        echo "Listing workspace:"
+        ls -R
+
+        echo "Reports folder:"
+        ls -R reports || true
+
     - name: Send Feedback Email
       if: always()
       env:
