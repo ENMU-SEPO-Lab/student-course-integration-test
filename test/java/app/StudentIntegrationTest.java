@@ -1,4 +1,4 @@
-package app;
+package test.java.app;
 
 import org.junit.Test;
 
@@ -17,14 +17,14 @@ public class StudentIntegrationTest {
         CourseRepository repo = new CourseRepository();
         StudentService service = new StudentService(repo);
 
-        Course c = new Course("CS101", "Intro");
-        repo.addCourse(c);
+        Course csciCourse = new Course("CSCI1210", "Computer Programming Fundamentals");
+        repo.addCourse(csciCourse);
 
-        Student s = new Student("Alice");
+        Student student = new Student("John Wick");
 
-        service.enrollStudent(s, "CS101");
+        service.enrollStudent(student, "CSCI1210");
 
-        assertEquals(1, s.getCourses().size());
-        assertEquals("CS101", s.getCourses().get(0).getCourseId());
+        assertEquals(1, student.getCourses().size());
+        assertEquals("CSCI1210", student.getCourses().get(0).getCourseId());
     }
 }
